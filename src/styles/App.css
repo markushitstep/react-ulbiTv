@@ -23,6 +23,10 @@
     align-items: center;
 }
 
+.post-btn{
+    display: flex;
+}
+
 .postFound{
     text-align: center;
 }
