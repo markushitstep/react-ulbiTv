@@ -11,6 +11,8 @@ import { usePosts } from '../hooks/usePosts';
 import { getPageCount } from '../utils/pages'
 import '../styles/App.css'
 import Pagination from '../components/UI/pagination/Pagination'
+import { useRef } from 'react';
+import { useObserver } from '../hooks/useObserver';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -20,14 +22,30 @@ function Posts() {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const lastPost = useRef();
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
+    setPosts( [...posts, ...response.data]);
     const totalCount = response.headers['x-total-count']
     setTotalPages(getPageCount(totalCount, limit));
   });
   
+  useObserver(lastPost, page < totalPages, isPostsLoading, () => {
+    setPage( page + 1);
+  });
+  // useEffect(() => {
+  //   if(isPostsLoading) return;
+  //   if(observer.current) observer.current.disconnect();
+  //   let callback = function(entries, observer) {
+  //     if(entries[0].isIntersecting && page < totalPages) {
+  //       setPage( page + 1);
+  //     }
+  //   };
+  //   observer.current = new IntersectionObserver(callback);
+  //   observer.current.observe(lastPost.current);
+  // }, [isPostsLoading]);
+
   useEffect(() => {
     fetchPosts();
   }, [page]);
@@ -61,13 +79,14 @@ function Posts() {
       {postError &&
         <h1>Произошла ошибка {postError}</h1>
       }
-      {isPostsLoading 
-        ? <MyLoader />
-        : <PostList 
-            remove={removePost} 
-            posts={sortedAndSearchedPosts} 
-            title='Посты'
-          />
+      <PostList 
+        remove={removePost} 
+        posts={sortedAndSearchedPosts} 
+        title='Посты'
+      />
+      <div ref={lastPost} style={{height: 20, background: 'red'}} /> 
+      {isPostsLoading &&
+         <MyLoader />
       }
       <Pagination 
         totalPages={totalPages}
