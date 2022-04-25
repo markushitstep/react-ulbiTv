@@ -8,14 +8,12 @@ import { useObserver } from '../../hooks/useObserver';
 
 
 const NewPostsComponent = () => {
-    const {posts, isPostsLoading, totalPosts, currentPage} = useSelector((state) => state.posts);
+    const {posts, isPostsLoading, totalPage, currentPage} = useSelector((state) => state.posts);
     const [page, setPage] = useState(currentPage);
-    //const [posts, setPosts] = useState(posts);
     const dispatch = useDispatch();
     const lastPost = useRef();
 
-
-    useObserver(lastPost, currentPage < totalPosts, isPostsLoading, () =>{
+    useObserver(lastPost, page < totalPage, isPostsLoading, () =>{
         setPage( page + 1);
     });
     
@@ -25,7 +23,6 @@ const NewPostsComponent = () => {
 
     useEffect(() => {
         getAllPosts(page);
-        //dispatch(getPosts(page));
     }, [page]);
 
 
@@ -33,7 +30,7 @@ const NewPostsComponent = () => {
         <div>
             <NewPosts 
                 posts={posts} 
-                totalPosts={totalPosts}
+                totalPage={totalPage}
                 isPostsLoading={isPostsLoading}
                 currentPage={currentPage}
                 lastPost={lastPost}

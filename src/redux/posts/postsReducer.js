@@ -3,7 +3,7 @@ import { CONST } from "./postsAction";
 let initialState = {
     posts: [],
     isPostsLoading: false,
-    totalPosts: 0,
+    totalPage: 0,
     currentPage: 1,
 }
 
@@ -23,10 +23,10 @@ const postsReducer = (state = initialState, action) => {
                 isPostsLoading: action.payload
             }
         }
-        case CONST.SET_POSTS_TOTAL: {
+        case CONST.SET_TOTAL_PAGE: {
             return {
                 ...state,
-                totalPosts: action.payload,
+                totalPage: action.payload,
                 isPostsLoading: false
             }
         }

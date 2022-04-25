@@ -1,6 +1,6 @@
 import PostService from "../../api/PostService"
 import { getPageCount } from "../../utils/pages";
-import { setCurrentPage, setPosts, setPostsLoading, setTotalPosts } from "./postsAction";
+import { setCurrentPage, setPosts, setPostsLoading, setTotalPage } from "./postsAction";
 
 
 export const getPosts = (page = 1, limit = 10) => async(dispatch) =>{
@@ -9,7 +9,7 @@ export const getPosts = (page = 1, limit = 10) => async(dispatch) =>{
         const response = await PostService.getAll(page, limit);
         dispatch(setPosts(response.data));
         const totalCount = response.headers['x-total-count'];
-        dispatch(setTotalPosts(getPageCount(totalCount, limit)));
+        dispatch(setTotalPage(getPageCount(totalCount, limit)));
         dispatch(setPostsLoading(false));
     } catch (error) {
         console.log(error);
