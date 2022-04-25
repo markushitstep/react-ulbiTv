@@ -4,14 +4,11 @@ import PostList from '../PostList';
 import { usePosts } from '../../hooks/usePosts';
 import MyLoader from '../UI/loader/MyLoader';
 import Pagination from '../UI/pagination/Pagination';
-import { useDispatch, useSelector } from 'react-redux';
 
 
 const NewPosts = ({posts, isPostsLoading, totalPosts, currentPage, lastPost}) => {
     const [filter, setFilter] = useState({sort: '', query: ''});
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
-    const dispatch = useDispatch();
-
     return (
         <div className="App">
             <h1> New Posts page </h1>
