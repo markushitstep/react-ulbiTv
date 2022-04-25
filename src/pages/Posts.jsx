@@ -31,7 +31,7 @@ function Posts() {
     setTotalPages(getPageCount(totalCount, limit));
   });
   
-  useObserver(lastPost, page < totalPages, isPostsLoading, () => {
+  useObserver(lastPost, page < totalPages, isPostsLoading,() => {
     setPage( page + 1);
   });
   // useEffect(() => {
@@ -49,7 +49,7 @@ function Posts() {
   useEffect(() => {
     fetchPosts();
   }, [page]);
-
+  
   const createPost = (newPost) => {
     setPosts([newPost, ...posts]);
     setModal(false);

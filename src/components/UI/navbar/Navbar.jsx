@@ -16,7 +16,8 @@ const Navbar = () => {
             <MyButton onClick={logout}>Exit</MyButton>
             <div className='navbar__links'>
                 <NavLink  to={'/about'}>About</NavLink>
-                <NavLink  to={'/posts'}>Posts</NavLink>
+                <NavLink  to={'/posts'}>New</NavLink>
+                {/* <NavLink  to={'/posts/new'}>New</NavLink> */}
             </div>
       </div>
     )
