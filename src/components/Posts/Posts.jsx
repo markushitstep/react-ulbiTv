@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import '../../styles/App.css'
 import PostFilter from '../PostFilter';
 import PostList from '../PostList';
 import { usePosts } from '../../hooks/usePosts';
 import MyLoader from '../UI/loader/MyLoader';
 import Pagination from '../UI/pagination/Pagination';
-import { useDispatch } from 'react-redux';
-import { setTotalPage } from '../../redux/posts/postsAction';
-import { getPageCount } from '../../utils/pages';
 
-
-const NewPosts = ({posts, isPostsLoading, totalPage, currentPage, lastPost}) => {
+const Posts = ({posts, totalPage, isPostsLoading, currentPage, lastPost}) => {
+    
     const [filter, setFilter] = useState({sort: '', query: ''});
-    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
-    const dispatch = useDispatch();
-
-    useEffect(() =>  {
-        let countPage = getPageCount(sortedAndSearchedPosts.length)
-        if(totalPage !== countPage){
-            dispatch(setTotalPage(countPage));
-        }
-    }, [totalPage]);
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
     return (
         <div className="App">
@@ -31,8 +21,8 @@ const NewPosts = ({posts, isPostsLoading, totalPage, currentPage, lastPost}) => 
             <PostList 
                 posts={sortedAndSearchedPosts} 
                 title='Посты'
-            />
-            <div ref={lastPost} style={{height: 20, background: 'red'}} /> 
+            /> 
+            <div ref={lastPost} />  
             {isPostsLoading &&
                 <MyLoader />
             }
@@ -44,4 +34,4 @@ const NewPosts = ({posts, isPostsLoading, totalPage, currentPage, lastPost}) => 
     );
 }
 
-export default NewPosts;
+export default Posts;

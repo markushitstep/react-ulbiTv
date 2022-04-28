@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { changePage } from '../../../redux/posts/postsThunk';
+import { setCurrentPage } from '../../../redux/posts/postsAction';
 import { getPagesArray } from '../../../utils/pages';
 
 const Pagination = ({totalPages, currentPage}) => {
@@ -8,7 +8,7 @@ const Pagination = ({totalPages, currentPage}) => {
     const dispatch = useDispatch();
 
     const onChangePage = (page) => {
-        dispatch(changePage(page))
+        dispatch(setCurrentPage(page))
     }
     
     return (

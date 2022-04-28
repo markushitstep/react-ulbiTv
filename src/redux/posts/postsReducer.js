@@ -4,7 +4,7 @@ let initialState = {
     posts: [],
     isPostsLoading: false,
     totalPage: 0,
-    currentPage: 1,
+    currentPage: 1
 }
 
 const postsReducer = (state = initialState, action) => {
@@ -13,8 +13,15 @@ const postsReducer = (state = initialState, action) => {
         case CONST.SET_POSTS: {
             return {
                 ...state,
-                posts: [...state.posts, ...action.payload],
-                // isPostsLoading: false
+                posts:[ ...state.posts, ...action.payload.data],
+                //isPostsLoading: false
+            }
+        }
+        case CONST.SET_EMPTY_POSTS: {
+            return {
+                ...state,
+                posts: action.payload,
+                //isPostsLoading: false
             }
         }
         case CONST.SET_POSTS_LOADING: {
@@ -27,14 +34,14 @@ const postsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 totalPage: action.payload,
-                isPostsLoading: false
+                //isPostsLoading: false
             }
         }
         case CONST.SET_CURRENT_PAGE: {
             return {
                 ...state,
                 currentPage: action.payload,
-                isPostsLoading: false
+                //isPostsLoading: false
             }
         }
         default: return state;
